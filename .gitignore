@@ -1,6 +1,40 @@
 node_modules/
+.pnpm-store/
 .turbo/
 dist/
 out/
-*.mp4
+coverage/
+.nyc_output/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# TypeScript and tooling caches
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# Go build artifacts
+bin/
+*.test
+*.out
+
+# IDE files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Rendered video artifacts
+*.mp4
