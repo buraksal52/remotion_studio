@@ -1,5 +1,5 @@
 {
-  "name": "@motion-studio/renderer-remotion",
+  "name": "@motion-studio/core-motion",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -13,17 +13,13 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "@motion-studio/core-motion": "workspace:*",
     "@motion-studio/compiler": "workspace:*",
-    "@motion-studio/registry": "workspace:*",
-    "@remotion/player": "^4.0.0",
+    "@motion-studio/plugin-sdk": "workspace:*",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "remotion": "^4.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   }

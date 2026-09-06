@@ -1,19 +1,7 @@
 import React from "react";
-import {Composition, Sequence, registerRoot} from "remotion";
+import {Composition, registerRoot} from "remotion";
 import type {RenderPlan} from "@motion-studio/compiler";
-import {SceneRenderer} from "./components";
-
-export const MotionStudioComposition: React.FC<{plan: RenderPlan}> = ({plan}) => {
-  return (
-    <>
-      {plan.scenes.map((scene) => (
-        <Sequence durationInFrames={scene.durationInFrames} from={scene.fromFrame} key={scene.id}>
-          <SceneRenderer plan={plan} scene={scene} />
-        </Sequence>
-      ))}
-    </>
-  );
-};
+import {MotionStudioComposition, SceneRenderer, createDefaultRegistry} from "./components";
 
 export function registerMotionStudioRoot(plan: RenderPlan): void {
   const Root: React.FC = () => (
@@ -30,5 +18,4 @@ export function registerMotionStudioRoot(plan: RenderPlan): void {
   registerRoot(Root);
 }
 
-export {DatabaseNode, HeroText, ServiceNode, Connection, SceneRenderer} from "./components";
-export {drawProgress, fadeProgress, scaleProgress, slideOffset, springProgress} from "./motion";
+export {createDefaultRegistry, MotionStudioComposition, SceneRenderer} from "./components";

@@ -84,7 +84,32 @@ Status: Complete
 
 ## Phase 3 — Plugin Runtime
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] `definePlugin`
+- [x] Plugin SDK contracts
+- [x] Plugin registry
+- [x] Capability registration
+- [x] Deterministic provider resolution
+- [x] Plugin/core compatibility metadata
+- [x] Built-in `core-motion` plugin
+- [x] Renderer resolves components through the registry
+
+### Validation
+
+- [x] Plugins register successfully
+- [x] Duplicate plugin IDs are rejected
+- [x] Duplicate component IDs are rejected
+- [x] Capability providers resolve deterministically
+- [x] Incompatible plugins are rejected
+- [x] Same cache-hit storyboard resolves through a plugin
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Render regression passes
 
 ## Phase 4 — Semantic Resolution
 
