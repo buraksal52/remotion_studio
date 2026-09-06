@@ -38,3 +38,6 @@ Thumbs.db
 
 # Rendered video artifacts
 *.mp4
+
+# CLI-generated Remotion entrypoints
+.motion-render-entry.tsx

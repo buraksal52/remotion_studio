@@ -173,7 +173,36 @@ Status: Complete
 
 ## Phase 6 — Go CLI MVP
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] `motion new`
+- [x] `motion validate`
+- [x] `motion inspect`
+- [x] `motion capabilities`
+- [x] `motion preview`
+- [x] `motion render`
+- [x] `motion doctor`
+- [x] Machine-readable JSON output
+- [x] Node/TypeScript runtime orchestration
+- [x] Predictable exit codes
+
+### Validation
+
+- [x] CLI discovers a project storyboard
+- [x] CLI validates through TypeScript runtime
+- [x] CLI inspects scenes
+- [x] CLI lists capabilities and filters by intent/scene
+- [x] CLI creates a new project
+- [x] CLI render workflow succeeds
+- [x] CLI JSON output is parseable
+- [x] Invalid project exit code is predictable
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Render regression passes
 
 ## Phase 7 — Agent Integration
 

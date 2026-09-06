@@ -29,15 +29,18 @@ export const MotionStudioComposition: React.FC<{plan: RenderPlan; registry?: Plu
 export const SceneRenderer: React.FC<{plan: RenderPlan; registry: PluginRegistry; resolver: SemanticResolver; scene: CompiledScene}> = ({plan, registry, resolver, scene}) => {
   const frame = useCurrentFrame();
   const elementMap = new Map(scene.elements.map((element) => [element.id, element]));
-  const connectionProvider = resolver.resolve({capability: "diagram.connection.request", sceneType: scene.type, intents: scene.sceneIntent, theme: scene.theme}).provider.component.component as React.ComponentType<any>;
+  const connectionEvents = scene.timeline.filter((event) => event.action === "connect" && event.from && event.to);
+  const connectionProvider = connectionEvents.length > 0
+    ? resolver.resolve({capability: "diagram.connection.request", sceneType: scene.type, intents: scene.sceneIntent, theme: scene.theme}).provider.component.component as React.ComponentType<any>
+    : undefined;
 
   return (
     <AbsoluteFill style={{backgroundColor: background, fontFamily: "Arial, sans-serif"}}>
       <div style={{color: muted, fontSize: 24, left: 60, position: "absolute", top: 44}}>{plan.title}</div>
-      {scene.timeline.filter((event) => event.action === "connect" && event.from && event.to).map((event) => {
+      {connectionEvents.map((event) => {
         const from = elementMap.get(event.from!);
         const to = elementMap.get(event.to!);
-        if (!from || !to) return null;
+        if (!from || !to || !connectionProvider) return null;
         return React.createElement(connectionProvider, {event, from: from.position, key: event.id, to: to.position});
       })}
       {scene.elements.map((element) => {
