@@ -5,6 +5,7 @@ export const coreMotionPlugin = definePlugin({
   id: "@motion-studio/core-motion",
   version: "0.1.0",
   core: "^0.1.0",
+  sdk: "^0.1.0",
   themes: ["technical-dark"],
   capabilities: ["ui.hero-text", "diagram.node.service", "diagram.node.database", "diagram.connection.request"],
   components: [

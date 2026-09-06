@@ -51,4 +51,27 @@ describe("PluginRegistry", () => {
     expect(() => registry.register(plugin("future", 0, "^0.2.0"))).toThrow(/requires core/);
     expect(() => registry.resolve("missing.capability")).toThrow(/No provider/);
   });
+
+  it("rejects plugins requiring an incompatible SDK", () => {
+    const registry = new PluginRegistry("0.1.0", "0.1.0");
+    expect(() => registry.register(definePlugin({
+      id: "future-sdk",
+      version: "0.1.0",
+      core: "^0.1.0",
+      sdk: "^0.2.0",
+      capabilities: ["test.card"],
+      components: [defineComponent({id: "future-card", capability: "test.card", component: Component})],
+    }))).toThrow(/requires SDK/);
+  });
+
+  it("validates plain plugin objects at the registry boundary", () => {
+    const registry = new PluginRegistry();
+    expect(() => registry.register({
+      id: "invalid",
+      version: "0.1",
+      core: "^0.1.0",
+      capabilities: [],
+      components: [],
+    })).toThrow(/failed validation/);
+  });
 });

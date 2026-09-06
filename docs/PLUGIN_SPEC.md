@@ -30,11 +30,17 @@ definePlugin({
   id: "@motion/technical-diagrams",
   version: "0.1.0",
   core: "^0.1.0",
+  sdk: "^0.1.0",
   capabilities: [],
   themes: [],
   presets: []
 });
 ```
+
+Plugin versions are exact semantic versions. `core` and optional `sdk`
+compatibility ranges support exact versions, `^`, `~`, and `*`. The SDK
+validates the definition when it is created; the registry validates it again at
+the installation boundary.
 
 ## Component Definition
 
@@ -165,3 +171,11 @@ The plugin SDK should eventually support:
 - validation before activation
 
 Marketplace itself is explicitly out of MVP scope.
+
+## Plugin authoring and conformance
+
+Third-party plugins should start from `templates/plugin`. A plugin package
+should export its `definePlugin` result and test it with
+`testPluginConformance`. The harness is dependency-free and returns stable
+diagnostics suitable for CI. Native plugins are trusted executable code and
+remain distinct from a future sandboxed/declarative plugin type.

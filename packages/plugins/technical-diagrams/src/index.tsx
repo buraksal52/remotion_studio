@@ -5,6 +5,7 @@ export const technicalDiagramsPlugin = definePlugin({
   id: "@motion-studio/technical-diagrams",
   version: "0.1.0",
   core: "^0.1.0",
+  sdk: "^0.1.0",
   themes: ["technical-dark", "clean-light"],
   capabilities: ["diagram.node.client", "diagram.node.gateway", "diagram.node.queue", "diagram.node.cache", "diagram.data-packet", "diagram.pipeline-step"],
   components: [

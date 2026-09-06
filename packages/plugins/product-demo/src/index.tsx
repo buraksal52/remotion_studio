@@ -5,6 +5,7 @@ export const productDemoPlugin = definePlugin({
   id: "@motion-studio/product-demo",
   version: "0.1.0",
   core: "^0.1.0",
+  sdk: "^0.1.0",
   themes: ["product-dark", "clean-light"],
   capabilities: ["product.browser", "product.screenshot", "product.feature-card", "product.metric", "product.cursor", "product.badge"],
   components: [

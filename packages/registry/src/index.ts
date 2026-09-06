@@ -1,4 +1,10 @@
-import type {ComponentDefinition, PluginDefinition} from "@motion-studio/plugin-sdk";
+import {
+  isCoreCompatible,
+  MOTION_STUDIO_PLUGIN_SDK_VERSION,
+  validatePlugin,
+  type ComponentDefinition,
+  type PluginDefinition,
+} from "@motion-studio/plugin-sdk";
 
 export type CapabilityProvider = {
   plugin: PluginDefinition;
@@ -9,14 +15,24 @@ export class PluginRegistry {
   private readonly plugins = new Map<string, PluginDefinition>();
   private readonly componentIds = new Set<string>();
 
-  public constructor(private readonly coreVersion = "0.1.0") {}
+  public constructor(
+    private readonly coreVersion = "0.1.0",
+    private readonly sdkVersion = MOTION_STUDIO_PLUGIN_SDK_VERSION,
+  ) {}
 
   public register(plugin: PluginDefinition): void {
+    const contractErrors = validatePlugin(plugin);
+    if (contractErrors.length > 0) {
+      throw new Error(`Plugin "${plugin.id}" failed validation: ${contractErrors.join("; ")}`);
+    }
     if (this.plugins.has(plugin.id)) {
       throw new Error(`Plugin "${plugin.id}" is already registered`);
     }
     if (!isCoreCompatible(plugin.core, this.coreVersion)) {
       throw new Error(`Plugin "${plugin.id}" requires core "${plugin.core}" but current core is "${this.coreVersion}"`);
+    }
+    if (plugin.sdk && !isCoreCompatible(plugin.sdk, this.sdkVersion)) {
+      throw new Error(`Plugin "${plugin.id}" requires SDK "${plugin.sdk}" but current SDK is "${this.sdkVersion}"`);
     }
 
     const localComponentIds = new Set<string>();
@@ -62,18 +78,4 @@ export class PluginRegistry {
   }
 }
 
-export function isCoreCompatible(range: string, coreVersion: string): boolean {
-  if (range === "*" || range === coreVersion) return true;
-  if (range.startsWith("^")) {
-    const required = parseVersion(range.slice(1));
-    const current = parseVersion(coreVersion);
-    return required !== undefined && current !== undefined && required.major === current.major && current.minor >= required.minor;
-  }
-  return false;
-}
-
-function parseVersion(version: string): {major: number; minor: number; patch: number} | undefined {
-  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(version);
-  if (!match) return undefined;
-  return {major: Number(match[1]), minor: Number(match[2]), patch: Number(match[3])};
-}
+export {isCoreCompatible};

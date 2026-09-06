@@ -309,7 +309,25 @@ Status: Complete
 
 ## Phase 11 — Plugin SDK Maturity
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Public plugin/component contracts with SDK version metadata
+- [x] Semantic version parsing and core/SDK compatibility checks
+- [x] Registry-boundary plugin contract validation
+- [x] Dependency-free plugin conformance test harness
+- [x] Plugin authoring template with build and test guidance
+- [x] Plugin versioning and trust policy documentation
+
+### Validation
+
+- [x] Malformed plugin and component definitions are rejected
+- [x] Exact, caret, tilde, and wildcard compatibility ranges are tested
+- [x] Incompatible core and SDK versions are rejected by the registry
+- [x] Conformance diagnostics are deterministic and CI-friendly
+- [x] Existing built-in plugins remain compatible
+- [x] Plugin SDK, registry, full workspace, and TypeScript builds pass
 
 ## Phase 12 — Marketplace
 
