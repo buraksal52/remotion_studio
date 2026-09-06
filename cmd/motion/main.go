@@ -38,6 +38,8 @@ func main() {
 		exitCode = newProject(root, args)
 	case "compile":
 		exitCode = runRuntime(root, "compile-markdown", args)
+	case "agent":
+		exitCode = agentCommand(root, args)
 	case "validate", "inspect", "capabilities":
 		exitCode = runRuntime(root, command, args)
 	case "preview":
@@ -118,6 +120,30 @@ func marketplaceCommand(root string, args []string, singular bool) int {
 	}
 	commandArgs := append([]string{action}, args[1:]...)
 	return runRuntime(root, "marketplace", commandArgs)
+}
+
+func agentCommand(root string, args []string) int {
+	if len(args) == 0 || args[0] == "--json" {
+		fmt.Fprintln(os.Stderr, "usage: motion agent <prompt> [--output path] [--preview|--render] [--json]")
+		return exitRuntime
+	}
+	output := flagValue(args, "--output")
+	if output == "" {
+		output = filepath.Join("out", "agent-storyboard.json")
+		args = append(args, "--output", output)
+	}
+	code := runRuntime(root, "agent", args)
+	if code != exitSuccess {
+		return code
+	}
+	storyboardArgs := []string{"--storyboard", output}
+	if hasFlag(args, "--preview") {
+		return preview(root, storyboardArgs)
+	}
+	if hasFlag(args, "--render") {
+		return render(root, append(storyboardArgs, "--output", outputPath(root, []string{"--output", filepath.Join("out", "agent.mp4")})))
+	}
+	return exitSuccess
 }
 
 func preview(root string, args []string) int {
@@ -337,7 +363,7 @@ func commandExitCode(err error) int {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: motion <new|compile|validate|inspect|capabilities|preview|render|doctor|plugins|plugin|version|node>")
+	fmt.Fprintln(os.Stderr, "usage: motion <new|compile|agent|validate|inspect|capabilities|preview|render|doctor|plugins|plugin|version|node>")
 }
 
 const newStoryboard = `{

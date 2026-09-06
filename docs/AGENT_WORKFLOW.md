@@ -4,6 +4,17 @@ Motion Studio agents (Claude Code, Codex, or another coding agent) work at the
 Storyboard IR level. The agent chooses intent and capabilities; the engine
 chooses provider implementations, timing, layout, and motion details.
 
+Motion Studio also includes a local deterministic planner for prompt-to-preview
+experiments:
+
+```bash
+motion agent "Show an API request going to Redis and indicate a cache hit" --preview
+```
+
+It produces a validated `out/agent-storyboard.json`. This planner is an
+embedded baseline, not an LLM; external LLM adapters can be added later while
+keeping the same Storyboard and validation boundary.
+
 ## Canonical loop
 
 1. Inspect available capabilities:

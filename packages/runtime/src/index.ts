@@ -1,5 +1,6 @@
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from "node:fs";
 import {resolve} from "node:path";
+import {planPrompt} from "@motion-studio/agent";
 import {compileStoryboard} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
 import {compileMarkdown} from "@motion-studio/markdown";
@@ -156,6 +157,19 @@ export function runRuntime(command: string, args: string[], projectRoot = proces
     const path = discoverStoryboard(projectRoot, options.storyboard);
     const result = validateStoryboard(path);
     print({valid: true, storyboard: path, scenes: result.plan.scenes.length, durationInFrames: result.plan.durationInFrames}, options.json);
+    return;
+  }
+
+  if (command === "agent") {
+    const firstOption = args.findIndex((arg) => arg.startsWith("--"));
+    const prompt = args.slice(0, firstOption === -1 ? args.length : firstOption).join(" ").trim();
+    if (!prompt) throw new Error("Usage: motion agent <prompt> [--output path] [--json]");
+    const planned = planPrompt(prompt);
+    const outputPath = resolve(projectRoot, options.output ?? "out/agent-storyboard.json");
+    mkdirSync(resolve(outputPath, ".."), {recursive: true});
+    writeFileSync(outputPath, `${JSON.stringify(planned.storyboard, null, 2)}\n`);
+    const validated = validateStoryboard(outputPath);
+    print({generated: true, storyboard: outputPath, matchedIntent: planned.matchedIntent, explanation: planned.explanation, scenes: validated.plan.scenes.length, durationInFrames: validated.plan.durationInFrames}, options.json);
     return;
   }
 

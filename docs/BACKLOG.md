@@ -351,3 +351,27 @@ Status: Complete
 - [x] CLI delegates marketplace operations to the TypeScript runtime
 - [x] Marketplace package, runtime, full workspace, and Go CLI tests pass
 - [x] Existing validation and render paths remain intact
+
+## Phase 13 — Embedded Agent Integration
+
+Status: Complete
+
+### Deliverables
+
+- [x] Local prompt-to-Storyboard planner
+- [x] CLI `motion agent` command
+- [x] Agent output schema, semantic, capability, and compiler validation
+- [x] CLI preview/render handoff for generated Storyboards
+- [x] GUI prompt panel connected to live generated preview
+- [x] Deterministic fallback planning for unsupported prompts
+- [x] External LLM adapter boundary documented for future providers
+
+### Validation
+
+- [x] Cache/request-flow prompts generate valid Storyboards
+- [x] Architecture/RAG prompts generate valid Storyboards
+- [x] Product-demo prompts generate valid Storyboards
+- [x] General prompts fall back to a valid hero Storyboard
+- [x] CLI agent output is machine-readable and renderable
+- [x] GUI agent result becomes the selected live preview project
+- [x] Existing CLI, GUI, validation, and render paths remain intact

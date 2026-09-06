@@ -250,6 +250,40 @@ Ardından normal storyboard akışını kullanın:
   --output out/rag-explainer.mp4
 ```
 
+### 5.7 Prompt’tan animasyon üretme
+
+CLI içindeki yerel agent planner’ı doğal dildeki temel istekleri Storyboard
+IR’a çevirir, capability çözümlemesiyle doğrular ve çıktı üretir:
+
+```bash
+./cmd/motion/motion agent \
+  "Show an API request going to Redis and indicate a cache hit" \
+  --output out/agent-storyboard.json \
+  --json
+```
+
+Üretilen storyboard’u doğrudan preview edebilirsiniz:
+
+```bash
+./cmd/motion/motion agent \
+  "Explain a RAG architecture" \
+  --preview
+```
+
+MP4 üretmek için:
+
+```bash
+./cmd/motion/motion agent \
+  "Show a product feature in a browser" \
+  --render
+```
+
+Varsayılan dosyalar `out/agent-storyboard.json` ve `out/agent.mp4` olur.
+Embedded planner deterministiktir ve API anahtarı istemez. RAG,
+cache/request-flow, product-demo ve genel hero prompt’ları için hazır planlar
+seçer. Daha gelişmiş doğal dil anlama için ileride bir LLM adapter’ı aynı
+Storyboard/validation sınırına bağlanabilir.
+
 ## 6. Plugin ve marketplace komutları
 
 Catalog’daki plugin’leri listeleyin:

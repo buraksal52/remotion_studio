@@ -1,8 +1,10 @@
 import React, {useMemo, useState} from "react";
 import {Player} from "@remotion/player";
-import {compileStoryboard} from "@motion-studio/compiler";
+import {planPrompt} from "@motion-studio/agent";
+import {compileStoryboard, type RenderPlan} from "@motion-studio/compiler";
 import {MotionStudioComposition, createDefaultRegistry} from "@motion-studio/renderer-remotion";
 import {SemanticResolver} from "@motion-studio/resolver";
+import type {Storyboard} from "@motion-studio/schema";
 import cacheHit from "../../../examples/cache-hit/storyboard.json";
 import architecture from "../../../examples/architecture/storyboard.json";
 import productDemo from "../../../examples/product-demo/storyboard.json";
@@ -10,10 +12,11 @@ import {renderCommand, sceneSummary, timelinePercent} from "./model";
 
 const registry = createDefaultRegistry();
 const resolver = new SemanticResolver(registry);
-const projects = [
-  {id: "cache-hit", label: "Cache hit", source: cacheHit, path: "examples/cache-hit/storyboard.json"},
-  {id: "architecture", label: "Architecture", source: architecture, path: "examples/architecture/storyboard.json"},
-  {id: "product-demo", label: "Product demo", source: productDemo, path: "examples/product-demo/storyboard.json"},
+type Project = {id: string; label: string; source: Storyboard; path: string; plan: RenderPlan};
+const projects: Project[] = [
+  {id: "cache-hit", label: "Cache hit", source: cacheHit as Storyboard, path: "examples/cache-hit/storyboard.json"},
+  {id: "architecture", label: "Architecture", source: architecture as Storyboard, path: "examples/architecture/storyboard.json"},
+  {id: "product-demo", label: "Product demo", source: productDemo as Storyboard, path: "examples/product-demo/storyboard.json"},
 ].map((project) => ({...project, plan: compileStoryboard(project.source)}));
 
 const tabs = ["Preview", "Timeline", "Inspector", "Plugins"] as const;
@@ -24,16 +27,38 @@ export default function App() {
   const [sceneId, setSceneId] = useState(projects[0].plan.scenes[0]?.id ?? "");
   const [tab, setTab] = useState<Tab>("Preview");
   const [prompt, setPrompt] = useState("");
+  const [projectList, setProjectList] = useState<Project[]>(projects);
+  const [agentMessage, setAgentMessage] = useState("Ready");
   const [renderStatus, setRenderStatus] = useState<"idle" | "queued">("idle");
-  const project = projects.find((item) => item.id === projectId) ?? projects[0];
+  const project = projectList.find((item) => item.id === projectId) ?? projectList[0];
   const selectedScene = project.plan.scenes.find((scene) => scene.id === sceneId) ?? project.plan.scenes[0];
   const selectedProviders = useMemo(() => selectedScene?.elements.map((element) => resolver.resolve({capability: element.capability, sceneType: selectedScene.type, intents: selectedScene.sceneIntent, theme: selectedScene.theme})), [selectedScene]);
 
   function selectProject(id: string) {
-    const next = projects.find((item) => item.id === id) ?? projects[0];
+    const next = projectList.find((item) => item.id === id) ?? projectList[0];
     setProjectId(next.id);
     setSceneId(next.plan.scenes[0]?.id ?? "");
     setTab("Preview");
+  }
+
+  function submitPrompt() {
+    try {
+      const result = planPrompt(prompt);
+      const generated: Project = {
+        id: `agent-${Date.now()}`,
+        label: "Agent result",
+        source: result.storyboard,
+        path: "out/agent-storyboard.json",
+        plan: compileStoryboard(result.storyboard),
+      };
+      setProjectList((current) => [generated, ...current]);
+      setProjectId(generated.id);
+      setSceneId(generated.plan.scenes[0]?.id ?? "");
+      setTab("Preview");
+      setAgentMessage(`Generated ${result.matchedIntent} · preview updated`);
+    } catch (error) {
+      setAgentMessage(error instanceof Error ? error.message : String(error));
+    }
   }
 
   return <div className="app-shell">
@@ -58,7 +83,7 @@ export default function App() {
       <aside className="sidebar right-sidebar">
         <div className="panel-title">AGENT PANEL <span className="sparkle">✦</span></div>
         <div className="agent-intro"><div className="agent-icon">✦</div><div><strong>Storyboard assistant</strong><p>Describe a change and I’ll help you express it with existing capabilities.</p></div></div>
-        <div className="prompt-box"><textarea aria-label="Storyboard prompt" value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="e.g. Add a cache hit highlight after Redis..." /><div className="prompt-footer"><span>Storyboard IR only</span><button className="send-button" onClick={() => setPrompt("")} aria-label="Submit prompt">↑</button></div></div>
+        <div className="prompt-box"><textarea aria-label="Storyboard prompt" value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="e.g. Show an API request going to Redis..." /><div className="prompt-footer"><span>{agentMessage}</span><button className="send-button" onClick={submitPrompt} aria-label="Submit prompt">↑</button></div></div>
         <div className="suggestions"><span>TRY ASKING</span><button onClick={() => setPrompt("Show the request flow from API to Redis")}>Show the request flow from API to Redis</button><button onClick={() => setPrompt("Add a product feature card")}>Add a product feature card</button></div>
         <div className="render-manager"><div className="section-heading"><span>RENDER MANAGER</span><span className={`render-state ${renderStatus}`}>{renderStatus === "queued" ? "QUEUED" : "READY"}</span></div><div className="render-row"><span className="render-file">{project.label}.mp4</span><button className="small-button" onClick={() => navigator.clipboard?.writeText(renderCommand(project.path))}>Copy CLI</button></div><code>{renderCommand(project.path)}</code></div>
       </aside>

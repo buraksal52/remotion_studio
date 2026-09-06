@@ -40,6 +40,16 @@ motion inspect [scene]
 motion doctor
 ```
 
+### Agent
+
+```bash
+motion agent <prompt> [--output storyboard.json] [--preview|--render]
+```
+
+The built-in local planner converts supported natural-language prompts into
+validated Storyboard IR. An external LLM adapter may replace the planner in a
+future phase.
+
 ### Markdown
 
 ```bash
