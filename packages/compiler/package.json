@@ -1,5 +1,5 @@
 {
-  "name": "@motion-studio/schema",
+  "name": "@motion-studio/compiler",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -13,7 +13,7 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "zod": "4.5.4"
+    "@motion-studio/schema": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.2",

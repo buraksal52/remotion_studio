@@ -58,7 +58,29 @@ Status: Complete
 
 ## Phase 2 — Deterministic Remotion Rendering
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Basic Storyboard compiler
+- [x] RenderPlan model
+- [x] Remotion adapter
+- [x] Two usable scene types: `hero` and `request-flow`
+- [x] Reusable visual components: HeroText, ServiceNode, DatabaseNode, Connection
+- [x] Motion primitives: fade, slide, scale, spring, draw
+- [x] Storyboard-driven cache-hit render example
+
+### Validation
+
+- [x] Compiler output is deterministic
+- [x] Timeline dependencies compile to frame ranges
+- [x] Timeline cycles are rejected
+- [x] Unknown timeline element references are rejected
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Cache-hit Storyboard renders to MP4 without AI
 
 ## Phase 3 — Plugin Runtime
 

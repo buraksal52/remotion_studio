@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "resolveJsonModule": true,
     "noEmit": true
   },
   "include": ["src"]

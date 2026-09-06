@@ -49,7 +49,7 @@ export const LayoutSchema = z.discriminatedUnion("type", [
 export const ElementSchema = z.object({
   id: nonEmptyId,
   capability: z.string().min(1),
-  props: z.record(z.unknown()).optional(),
+  props: z.record(z.string(), z.unknown()).optional(),
   semantic: z
     .object({
       role: z.string().min(1).optional(),

@@ -1,42 +1,21 @@
 import React from "react";
+import cacheStoryboard from "../../../examples/cache-hit/storyboard.json";
+import {compileStoryboard} from "@motion-studio/compiler";
 import {Composition, registerRoot} from "remotion";
+import {MotionStudioComposition} from "@motion-studio/renderer-remotion";
 
-const ExampleComposition: React.FC = () => {
-  return (
-    <div
-      style={{
-        alignItems: "center",
-        backgroundColor: "#101827",
-        color: "#f8fafc",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "Arial, sans-serif",
-        height: "100%",
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      <div style={{fontSize: 72, fontWeight: 700}}>Motion Studio</div>
-      <div style={{color: "#93c5fd", fontSize: 28, marginTop: 20}}>
-        Phase 0 Remotion example
-      </div>
-    </div>
-  );
-};
+const renderPlan = compileStoryboard(cacheStoryboard);
 
-export const RemotionRoot: React.FC = () => {
-  return (
-    <Composition
-      component={ExampleComposition}
-      durationInFrames={90}
-      fps={30}
-      height={1080}
-      id="MotionStudioExample"
-      width={1920}
-    />
-  );
-};
+registerRoot(() => (
+  <Composition
+    component={MotionStudioComposition}
+    defaultProps={{plan: renderPlan}}
+    durationInFrames={renderPlan.durationInFrames}
+    fps={renderPlan.fps}
+    height={renderPlan.height}
+    id="MotionStudioStoryboard"
+    width={renderPlan.width}
+  />
+));
 
-registerRoot(RemotionRoot);
-
-export default RemotionRoot;
+export {renderPlan};
