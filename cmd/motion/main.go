@@ -36,6 +36,8 @@ func main() {
 		exitCode = runNode(args)
 	case "new":
 		exitCode = newProject(root, args)
+	case "compile":
+		exitCode = runRuntime(root, "compile-markdown", args)
 	case "validate", "inspect", "capabilities":
 		exitCode = runRuntime(root, command, args)
 	case "preview":
@@ -307,7 +309,7 @@ func commandExitCode(err error) int {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: motion <new|validate|inspect|capabilities|preview|render|doctor|version|node>")
+	fmt.Fprintln(os.Stderr, "usage: motion <new|compile|validate|inspect|capabilities|preview|render|doctor|version|node>")
 }
 
 const newStoryboard = `{

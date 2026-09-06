@@ -11,7 +11,7 @@ export const coreMotionPlugin = definePlugin({
     defineComponent({id: "hero-text", capability: "ui.hero-text", allowedScenes: ["hero"], intents: ["introduce-motion-studio"], priority: 10, component: HeroText}),
     defineComponent({id: "service-node", capability: "diagram.node.service", allowedScenes: ["request-flow"], intents: ["show-data-flow"], priority: 10, component: ServiceNode}),
     defineComponent({id: "database-node", capability: "diagram.node.database", allowedScenes: ["request-flow"], intents: ["show-data-flow"], priority: 10, component: DatabaseNode}),
-    defineComponent({id: "connection", capability: "diagram.connection.request", allowedScenes: ["request-flow"], intents: ["show-data-flow"], priority: 10, component: Connection}),
+    defineComponent({id: "connection", capability: "diagram.connection.request", allowedScenes: ["request-flow", "architecture", "pipeline"], intents: ["show-data-flow", "explain-architecture", "show-processing"], priority: 10, component: Connection}),
   ],
 });
 

@@ -40,6 +40,15 @@ motion inspect [scene]
 motion doctor
 ```
 
+### Markdown
+
+```bash
+motion compile <file.md> --output storyboard.json
+```
+
+`motion compile` converts Markdown declarative authoring into the same
+Storyboard IR used by JSON projects. It does not render or bypass validation.
+
 ### Validation
 
 ```bash

@@ -256,7 +256,29 @@ Status: Complete
 
 ## Phase 9 — Markdown / Declarative Authoring
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Markdown authoring package
+- [x] Heading-to-title compilation
+- [x] `:::scene-type` block compilation
+- [x] Arrow-flow element compilation
+- [x] Declarative scene attributes and layouts
+- [x] Markdown authoring documentation
+- [x] CLI compilation workflow
+
+### Validation
+
+- [x] Documented RAG-style Markdown compiles to Storyboard IR
+- [x] Compiled output passes schema validation
+- [x] Multiple scenes/layout attributes are supported
+- [x] Malformed Markdown produces useful errors
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Existing render path remains intact
 
 ## Phase 10 — Desktop GUI
 

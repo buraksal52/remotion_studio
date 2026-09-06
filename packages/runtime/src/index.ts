@@ -1,7 +1,8 @@
-import {readFileSync} from "node:fs";
+import {mkdirSync, readFileSync, writeFileSync} from "node:fs";
 import {resolve} from "node:path";
 import {compileStoryboard} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
+import {compileMarkdown} from "@motion-studio/markdown";
 import {productDemoPlugin} from "@motion-studio/product-demo";
 import {PluginRegistry} from "@motion-studio/registry";
 import {SemanticResolutionError, SemanticResolver} from "@motion-studio/resolver";
@@ -13,6 +14,8 @@ type RuntimeOptions = {
   scene?: string;
   intent?: string;
   storyboard?: string;
+  markdown?: string;
+  output?: string;
 };
 
 export function createDefaultRegistry(): PluginRegistry {
@@ -65,6 +68,8 @@ function parseOptions(args: string[]): RuntimeOptions {
     if (args[index] === "--scene") options.scene = args[index + 1];
     if (args[index] === "--intent") options.intent = args[index + 1];
     if (args[index] === "--storyboard") options.storyboard = args[index + 1];
+    if (args[index] === "--markdown") options.markdown = args[index + 1];
+    if (args[index] === "--output") options.output = args[index + 1];
   }
   return options;
 }
@@ -82,6 +87,18 @@ export function runRuntime(command: string, args: string[], projectRoot = proces
     const path = discoverStoryboard(projectRoot, options.storyboard);
     const result = validateStoryboard(path);
     print({valid: true, storyboard: path, scenes: result.plan.scenes.length, durationInFrames: result.plan.durationInFrames}, options.json);
+    return;
+  }
+
+  if (command === "compile-markdown") {
+    const markdownPath = resolve(projectRoot, options.markdown ?? args.find((arg) => !arg.startsWith("--")) ?? "");
+    const storyboard = compileMarkdown(readFileSync(markdownPath, "utf8"));
+    if (options.output) {
+      const outputPath = resolve(projectRoot, options.output);
+      mkdirSync(resolve(outputPath, ".."), {recursive: true});
+      writeFileSync(outputPath, `${JSON.stringify(storyboard, null, 2)}\n`);
+    }
+    print(options.output ? {compiled: true, markdown: markdownPath, storyboard: resolve(projectRoot, options.output!)} : storyboard, options.json);
     return;
   }
 
