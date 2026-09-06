@@ -30,7 +30,31 @@ Status: Complete
 
 ## Phase 1 — Storyboard IR
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Storyboard schema
+- [x] Scene schema
+- [x] Element schema
+- [x] Motion action schema
+- [x] Layout schema
+- [x] Timeline event schema
+- [x] Zod validation
+- [x] Hero fixture storyboard
+- [x] API → Redis cache-flow fixture storyboard
+- [x] Schema documentation
+
+### Validation
+
+- [x] Valid storyboard parses
+- [x] Invalid fields fail
+- [x] Unknown enum values fail
+- [x] Version mismatch fails
+- [x] Useful validation errors are exposed
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] Existing Phase 0 behavior remains intact
 
 ## Phase 2 — Deterministic Remotion Rendering
 

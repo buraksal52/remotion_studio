@@ -1,0 +1,70 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "title": "Cache Hit",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "theme": "technical-dark"
+  },
+  "scenes": [
+    {
+      "id": "cache-flow",
+      "type": "request-flow",
+      "intent": {
+        "primary": "explain-cache-hit",
+        "secondary": ["show-data-flow"],
+        "tone": "technical"
+      },
+      "layout": {
+        "type": "flow",
+        "direction": "LR"
+      },
+      "elements": [
+        {
+          "id": "api",
+          "capability": "diagram.node.service",
+          "props": {
+            "label": "API"
+          }
+        },
+        {
+          "id": "redis",
+          "capability": "diagram.node.database",
+          "props": {
+            "label": "Redis"
+          },
+          "semantic": {
+            "role": "cache"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "id": "api-enter",
+          "action": "enter",
+          "target": "api"
+        },
+        {
+          "id": "redis-enter",
+          "action": "enter",
+          "target": "redis",
+          "after": "api-enter"
+        },
+        {
+          "id": "connection-draw",
+          "action": "connect",
+          "from": "api",
+          "to": "redis",
+          "after": "redis-enter"
+        },
+        {
+          "id": "redis-activate",
+          "action": "activate",
+          "target": "redis",
+          "after": "connection-draw"
+        }
+      ]
+    }
+  ]
+}

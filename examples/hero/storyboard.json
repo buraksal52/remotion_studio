@@ -1,0 +1,37 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "title": "Motion Studio",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "theme": "technical-dark"
+  },
+  "scenes": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "intent": {
+        "primary": "introduce-motion-studio",
+        "tone": "technical"
+      },
+      "layout": {
+        "type": "center"
+      },
+      "elements": [
+        {
+          "id": "title",
+          "capability": "ui.hero-text",
+          "props": {
+            "text": "Motion Studio"
+          },
+          "animation": [
+            {
+              "action": "enter"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
