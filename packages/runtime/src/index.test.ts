@@ -17,4 +17,13 @@ describe("runtime", () => {
       "diagram.node.database",
     ]);
   });
+
+  it.each([
+    ["../../examples/architecture/storyboard.json", "architecture"],
+    ["../../examples/product-demo/storyboard.json", "product-demo"],
+  ])("validates built-in pack example %s", (relativePath, sceneId) => {
+    const storyboard = discoverStoryboard(process.cwd(), relativePath);
+    const result = validateStoryboard(storyboard);
+    expect(result.plan.scenes[0].id).toBe(sceneId);
+  });
 });

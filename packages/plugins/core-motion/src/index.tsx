@@ -16,3 +16,4 @@ export const coreMotionPlugin = definePlugin({
 });
 
 export {Connection, DatabaseNode, HeroText, ServiceNode} from "./components";
+export {drawProgress, fadeProgress, highlightProgress, progressFill, revealProgress, scaleProgress, slideOffset, springProgress} from "./motion";

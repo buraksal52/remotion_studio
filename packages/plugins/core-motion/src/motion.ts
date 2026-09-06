@@ -25,3 +25,24 @@ export function springProgress(frame: number, fps: number, delay = 0): number {
 export function drawProgress(frame: number, startFrame: number, durationInFrames: number): number {
   return fadeProgress(frame, startFrame, durationInFrames);
 }
+
+export function highlightProgress(frame: number, startFrame: number, durationInFrames: number): number {
+  return interpolate(frame, [startFrame, startFrame + durationInFrames / 2, startFrame + durationInFrames], [0, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+}
+
+export function revealProgress(frame: number, startFrame: number, durationInFrames: number): number {
+  return interpolate(frame, [startFrame, startFrame + durationInFrames], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+}
+
+export function progressFill(frame: number, startFrame: number, durationInFrames: number): number {
+  return interpolate(frame, [startFrame, startFrame + durationInFrames], [0, 100], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+}

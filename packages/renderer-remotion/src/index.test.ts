@@ -8,5 +8,7 @@ describe("Remotion adapter plugin integration", () => {
     expect(registry.resolve("diagram.node.service").plugin.id).toBe("@motion-studio/core-motion");
     expect(registry.resolve("diagram.node.database").plugin.id).toBe("@motion-studio/core-motion");
     expect(registry.resolve("diagram.connection.request").plugin.id).toBe("@motion-studio/core-motion");
+    expect(registry.resolve("diagram.node.gateway").plugin.id).toBe("@motion-studio/technical-diagrams");
+    expect(registry.resolve("product.feature-card").plugin.id).toBe("@motion-studio/product-demo");
   });
 });

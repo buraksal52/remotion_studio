@@ -11,10 +11,12 @@
   "dependencies": {
     "@motion-studio/compiler": "workspace:*",
     "@motion-studio/core-motion": "workspace:*",
+    "@motion-studio/product-demo": "workspace:*",
     "@motion-studio/registry": "workspace:*",
     "@motion-studio/renderer-remotion": "workspace:*",
     "@motion-studio/resolver": "workspace:*",
     "@motion-studio/schema": "workspace:*",
+    "@motion-studio/technical-diagrams": "workspace:*",
     "@remotion/cli": "^4.0.0",
     "react": "^18.3.1",
     "remotion": "^4.0.0"

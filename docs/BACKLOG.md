@@ -230,7 +230,29 @@ Status: Complete
 
 ## Phase 8 — Built-in Packs
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] `core-motion` baseline pack remains registered
+- [x] `technical-diagrams` built-in pack
+- [x] `product-demo` built-in pack
+- [x] 6–8 supported scene types
+- [x] 15–20 reusable components
+- [x] 8–12 motion primitives/presets
+- [x] 2–3 built-in themes
+- [x] Several layouts remain supported
+
+### Validation
+
+- [x] All built-in packs register through the default registry
+- [x] Pack capabilities resolve through semantic rules
+- [x] Pack examples validate and render
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Render regression passes
 
 ## Phase 9 — Markdown / Declarative Authoring
 

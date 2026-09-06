@@ -2,15 +2,22 @@ import React from "react";
 import {AbsoluteFill, Sequence, useCurrentFrame} from "remotion";
 import type {CompiledElement, CompiledScene, RenderPlan} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
+import {productDemoPlugin} from "@motion-studio/product-demo";
 import {PluginRegistry} from "@motion-studio/registry";
 import {SemanticResolver} from "@motion-studio/resolver";
+import {technicalDiagramsPlugin} from "@motion-studio/technical-diagrams";
 
-const background = "#101827";
-const muted = "#94a3b8";
+const themeStyles: Record<string, {background: string; muted: string}> = {
+  "technical-dark": {background: "#101827", muted: "#94a3b8"},
+  "product-dark": {background: "#120f2e", muted: "#c4b5fd"},
+  "clean-light": {background: "#f8fafc", muted: "#475569"},
+};
 
 export function createDefaultRegistry(): PluginRegistry {
   const registry = new PluginRegistry("0.1.0");
   registry.register(coreMotionPlugin);
+  registry.register(technicalDiagramsPlugin);
+  registry.register(productDemoPlugin);
   return registry;
 }
 
@@ -33,10 +40,11 @@ export const SceneRenderer: React.FC<{plan: RenderPlan; registry: PluginRegistry
   const connectionProvider = connectionEvents.length > 0
     ? resolver.resolve({capability: "diagram.connection.request", sceneType: scene.type, intents: scene.sceneIntent, theme: scene.theme}).provider.component.component as React.ComponentType<any>
     : undefined;
+  const theme = themeStyles[scene.theme ?? "technical-dark"] ?? themeStyles["technical-dark"];
 
   return (
-    <AbsoluteFill style={{backgroundColor: background, fontFamily: "Arial, sans-serif"}}>
-      <div style={{color: muted, fontSize: 24, left: 60, position: "absolute", top: 44}}>{plan.title}</div>
+    <AbsoluteFill style={{backgroundColor: theme.background, fontFamily: "Arial, sans-serif"}}>
+      <div style={{color: theme.muted, fontSize: 24, left: 60, position: "absolute", top: 44}}>{plan.title}</div>
       {connectionEvents.map((event) => {
         const from = elementMap.get(event.from!);
         const to = elementMap.get(event.to!);

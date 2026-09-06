@@ -102,6 +102,59 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@26.4.1)(terser@5.51.2)
 
+  packages/plugins/product-demo:
+    dependencies:
+      '@motion-studio/core-motion':
+        specifier: workspace:*
+        version: link:../core-motion
+      '@motion-studio/plugin-sdk':
+        specifier: workspace:*
+        version: link:../../plugin-sdk
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      remotion:
+        specifier: ^4.0.0
+        version: 4.0.521(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.31
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@26.4.1)(terser@5.51.2)
+
+  packages/plugins/technical-diagrams:
+    dependencies:
+      '@motion-studio/compiler':
+        specifier: workspace:*
+        version: link:../../compiler
+      '@motion-studio/core-motion':
+        specifier: workspace:*
+        version: link:../core-motion
+      '@motion-studio/plugin-sdk':
+        specifier: workspace:*
+        version: link:../../plugin-sdk
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      remotion:
+        specifier: ^4.0.0
+        version: 4.0.521(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.31
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@26.4.1)(terser@5.51.2)
+
   packages/registry:
     dependencies:
       '@motion-studio/plugin-sdk':
@@ -126,12 +179,18 @@ importers:
       '@motion-studio/core-motion':
         specifier: workspace:*
         version: link:../plugins/core-motion
+      '@motion-studio/product-demo':
+        specifier: workspace:*
+        version: link:../plugins/product-demo
       '@motion-studio/registry':
         specifier: workspace:*
         version: link:../registry
       '@motion-studio/resolver':
         specifier: workspace:*
         version: link:../resolver
+      '@motion-studio/technical-diagrams':
+        specifier: workspace:*
+        version: link:../plugins/technical-diagrams
       '@remotion/player':
         specifier: ^4.0.0
         version: 4.0.521(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -185,6 +244,9 @@ importers:
       '@motion-studio/core-motion':
         specifier: workspace:*
         version: link:../plugins/core-motion
+      '@motion-studio/product-demo':
+        specifier: workspace:*
+        version: link:../plugins/product-demo
       '@motion-studio/registry':
         specifier: workspace:*
         version: link:../registry
@@ -197,6 +259,9 @@ importers:
       '@motion-studio/schema':
         specifier: workspace:*
         version: link:../schema
+      '@motion-studio/technical-diagrams':
+        specifier: workspace:*
+        version: link:../plugins/technical-diagrams
       '@remotion/cli':
         specifier: ^4.0.0
         version: 4.0.521(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)

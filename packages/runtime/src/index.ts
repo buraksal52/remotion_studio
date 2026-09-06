@@ -2,9 +2,11 @@ import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
 import {compileStoryboard} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
+import {productDemoPlugin} from "@motion-studio/product-demo";
 import {PluginRegistry} from "@motion-studio/registry";
 import {SemanticResolutionError, SemanticResolver} from "@motion-studio/resolver";
 import {parseStoryboard} from "@motion-studio/schema";
+import {technicalDiagramsPlugin} from "@motion-studio/technical-diagrams";
 
 type RuntimeOptions = {
   json: boolean;
@@ -16,6 +18,8 @@ type RuntimeOptions = {
 export function createDefaultRegistry(): PluginRegistry {
   const registry = new PluginRegistry("0.1.0");
   registry.register(coreMotionPlugin);
+  registry.register(technicalDiagramsPlugin);
+  registry.register(productDemoPlugin);
   return registry;
 }
 

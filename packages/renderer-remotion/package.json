@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@motion-studio/core-motion": "workspace:*",
+    "@motion-studio/product-demo": "workspace:*",
+    "@motion-studio/technical-diagrams": "workspace:*",
     "@motion-studio/compiler": "workspace:*",
     "@motion-studio/registry": "workspace:*",
     "@motion-studio/resolver": "workspace:*",

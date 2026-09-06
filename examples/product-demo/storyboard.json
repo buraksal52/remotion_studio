@@ -1,0 +1,36 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "title": "Product Demo",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "theme": "product-dark"
+  },
+  "scenes": [
+    {
+      "id": "product-demo",
+      "type": "product-demo",
+      "intent": {
+        "primary": "show-feature",
+        "tone": "playful"
+      },
+      "layout": {
+        "type": "grid",
+        "columns": 2
+      },
+      "elements": [
+        {"id": "browser", "capability": "product.browser", "props": {"label": "Motion Studio"}},
+        {"id": "screenshot", "capability": "product.screenshot", "props": {"label": "One-click preview"}},
+        {"id": "feature", "capability": "product.feature-card", "props": {"label": "Reusable scenes", "detail": "Build from capabilities"}},
+        {"id": "cursor", "capability": "product.cursor"}
+      ],
+      "timeline": [
+        {"id": "browser-enter", "action": "enter", "target": "browser"},
+        {"id": "screenshot-reveal", "action": "reveal", "target": "screenshot", "after": "browser-enter"},
+        {"id": "feature-highlight", "action": "highlight", "target": "feature", "after": "screenshot-reveal"},
+        {"id": "cursor-focus", "action": "focus", "target": "cursor", "after": "feature-highlight"}
+      ]
+    }
+  ]
+}

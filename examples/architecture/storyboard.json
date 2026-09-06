@@ -1,0 +1,36 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "title": "Service Architecture",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "theme": "technical-dark"
+  },
+  "scenes": [
+    {
+      "id": "architecture",
+      "type": "architecture",
+      "intent": {
+        "primary": "explain-architecture",
+        "tone": "technical"
+      },
+      "layout": {
+        "type": "flow",
+        "direction": "LR"
+      },
+      "elements": [
+        {"id": "client", "capability": "diagram.node.client", "props": {"label": "Web Client"}},
+        {"id": "gateway", "capability": "diagram.node.gateway", "props": {"label": "Gateway"}},
+        {"id": "queue", "capability": "diagram.node.queue", "props": {"label": "Jobs"}},
+        {"id": "cache", "capability": "diagram.node.cache", "props": {"label": "Cache"}}
+      ],
+      "timeline": [
+        {"id": "client-enter", "action": "enter", "target": "client"},
+        {"id": "gateway-enter", "action": "enter", "target": "gateway", "after": "client-enter"},
+        {"id": "queue-enter", "action": "enter", "target": "queue", "after": "gateway-enter"},
+        {"id": "cache-enter", "action": "enter", "target": "cache", "after": "queue-enter"}
+      ]
+    }
+  ]
+}
