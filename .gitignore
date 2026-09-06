@@ -1,0 +1,6 @@
+node_modules/
+.turbo/
+dist/
+out/
+*.mp4
+.DS_Store
