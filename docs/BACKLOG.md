@@ -206,7 +206,27 @@ Status: Complete
 
 ## Phase 7 — Agent Integration
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Claude Code guidance in `CLAUDE.md`
+- [x] Codex/agent guidance in `AGENTS.md`
+- [x] Agent-oriented authoring and repair documentation
+- [x] CLI capability discovery documented and usable as the first agent step
+- [x] Agent-created valid Storyboard example
+- [x] Safe Storyboard patch workflow documented
+
+### Validation
+
+- [x] Agent example passes schema, compiler, semantic, and capability validation
+- [x] Agent can discover eligible capabilities through JSON CLI output
+- [x] Validation repair loop is documented by error layer
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Existing render path remains covered
 
 ## Phase 8 — Built-in Packs
 

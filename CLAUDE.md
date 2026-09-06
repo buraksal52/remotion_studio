@@ -72,3 +72,16 @@ A good change:
 - has tests;
 - has clear boundaries;
 - does not make the core aware of UI-specific concerns.
+
+## Agent Workflow
+
+Follow `docs/AGENT_WORKFLOW.md` for capability discovery, safe Storyboard
+patches, and validation repair. The normal loop is:
+
+```text
+capabilities → focused Storyboard edit → validate → preview/render
+```
+
+Use `examples/agent-created/storyboard.json` as a minimal reference. If a
+validation error occurs, repair the Storyboard at the layer reported by the
+error instead of bypassing the registry or writing raw Remotion code.

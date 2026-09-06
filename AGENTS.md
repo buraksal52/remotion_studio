@@ -64,6 +64,14 @@ Every Storyboard modification must pass:
 3. semantic validation
 4. capability resolution
 
+## Agent Workflow
+
+Use `docs/AGENT_WORKFLOW.md` as the canonical authoring and repair loop.
+Before editing a Storyboard, query capabilities with `motion capabilities
+--json`. After each focused edit, run `motion validate --json` (or pass
+`--storyboard <path>` for a different file) before previewing or rendering.
+Keep the original Storyboard until the edited copy validates successfully.
+
 ## Current Priority
 
 The current project priority is core engine correctness.

@@ -1,0 +1,60 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "title": "Agent Created Request Flow",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "theme": "technical-dark"
+  },
+  "scenes": [
+    {
+      "id": "request-flow",
+      "type": "request-flow",
+      "intent": {
+        "primary": "show-data-flow",
+        "tone": "technical"
+      },
+      "layout": {
+        "type": "flow",
+        "direction": "LR"
+      },
+      "elements": [
+        {
+          "id": "api",
+          "capability": "diagram.node.service",
+          "props": {
+            "label": "API"
+          }
+        },
+        {
+          "id": "database",
+          "capability": "diagram.node.database",
+          "props": {
+            "label": "Database"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "id": "api-enter",
+          "action": "enter",
+          "target": "api"
+        },
+        {
+          "id": "database-enter",
+          "action": "enter",
+          "target": "database",
+          "after": "api-enter"
+        },
+        {
+          "id": "request-connect",
+          "action": "connect",
+          "from": "api",
+          "to": "database",
+          "after": "database-enter"
+        }
+      ]
+    }
+  ]
+}
