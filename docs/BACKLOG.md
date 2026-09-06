@@ -144,7 +144,32 @@ Status: Complete
 
 ## Phase 5 — Timeline + Layout Compiler
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Dependency-based timeline
+- [x] Topological sort
+- [x] Cycle detection
+- [x] Explicit start handling
+- [x] Multiple dependency handling
+- [x] Frame compilation
+- [x] Center/split/flow/grid layouts
+- [x] Deterministic graph layout prototype
+
+### Validation
+
+- [x] Dependencies compile deterministically
+- [x] Multiple dependencies wait for the latest predecessor
+- [x] Explicit starts are respected
+- [x] Cycles are rejected
+- [x] All basic layouts produce complete positions
+- [x] Graph LR/TB output is deterministic
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Render regression passes
 
 ## Phase 6 — Go CLI MVP
 

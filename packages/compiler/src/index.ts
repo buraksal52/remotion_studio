@@ -133,6 +133,15 @@ function compileLayout(layout: LayoutSpec | undefined, count: number, width: num
     });
   }
 
+  if (layout.type === "graph") {
+    return Array.from({length: count}, (_, index) => {
+      const progress = (index + 1) / (count + 1);
+      return layout.direction === "LR"
+        ? {x: progress * width, y: height / 2}
+        : {x: width / 2, y: progress * height};
+    });
+  }
+
   const isVertical = layout.direction === "TB" || layout.direction === "BT";
   const reverse = layout.direction === "RL" || layout.direction === "BT";
   return Array.from({length: count}, (_, index) => {
@@ -148,6 +157,9 @@ function compileTimeline(events: TimelineEvent[], elementIds: string[]): Compile
   const eventMap = new Map(events.map((event) => [event.id, event]));
   const compiled = new Map<string, CompiledTimelineEvent>();
   const visiting = new Set<string>();
+  const orderedIds: string[] = [];
+
+  if (eventMap.size !== events.length) throw new Error("Timeline event IDs must be unique");
 
   const visit = (eventId: string): CompiledTimelineEvent => {
     const existing = compiled.get(eventId);
@@ -173,10 +185,12 @@ function compileTimeline(events: TimelineEvent[], elementIds: string[]): Compile
     };
     visiting.delete(eventId);
     compiled.set(eventId, result);
+    orderedIds.push(eventId);
     return result;
   };
 
-  return events.map((event) => visit(event.id));
+  events.forEach((event) => visit(event.id));
+  return orderedIds.map((eventId) => compiled.get(eventId)!);
 }
 
 function validateEventTargets(event: TimelineEvent, elementIds: Set<string>): void {
