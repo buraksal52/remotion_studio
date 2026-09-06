@@ -6,6 +6,12 @@ export type ComponentDefinition<Props = any> = {
   id: string;
   capability: string;
   priority?: number;
+  intents?: string[];
+  useWhen?: string[];
+  doNotUseWhen?: string[];
+  allowedScenes?: string[];
+  forbiddenScenes?: string[];
+  requiredContext?: string[];
   component: PluginComponent<Props>;
 };
 
@@ -15,6 +21,7 @@ export type PluginDefinition = {
   core: string;
   capabilities: string[];
   components: ComponentDefinition[];
+  themes?: string[];
 };
 
 export function defineComponent<Props = any>(

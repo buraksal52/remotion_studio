@@ -43,7 +43,15 @@ export class PluginRegistry {
   }
 
   public resolve(capability: string): CapabilityProvider {
-    const providers = this.listPlugins()
+    const providers = this.providersFor(capability);
+
+    const provider = providers[0];
+    if (!provider) throw new Error(`No provider registered for capability "${capability}"`);
+    return provider;
+  }
+
+  public providersFor(capability: string): CapabilityProvider[] {
+    return this.listPlugins()
       .flatMap((plugin) => plugin.components.filter((component) => component.capability === capability).map((component) => ({plugin, component})))
       .sort((a, b) => {
         const priorityDifference = (b.component.priority ?? 0) - (a.component.priority ?? 0);
@@ -51,10 +59,6 @@ export class PluginRegistry {
         const pluginDifference = a.plugin.id.localeCompare(b.plugin.id);
         return pluginDifference !== 0 ? pluginDifference : a.component.id.localeCompare(b.component.id);
       });
-
-    const provider = providers[0];
-    if (!provider) throw new Error(`No provider registered for capability "${capability}"`);
-    return provider;
   }
 }
 

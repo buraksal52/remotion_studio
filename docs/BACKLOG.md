@@ -113,7 +113,34 @@ Status: Complete
 
 ## Phase 4 — Semantic Resolution
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Component semantic metadata
+- [x] `intents`
+- [x] `useWhen`
+- [x] `doNotUseWhen`
+- [x] `allowedScenes`
+- [x] `forbiddenScenes`
+- [x] Required context rules
+- [x] Deterministic resolver scoring
+- [x] Semantic validation errors
+- [x] Eligible capability inspection
+- [x] Renderer integration
+
+### Validation
+
+- [x] Valid component use resolves
+- [x] Forbidden component use is rejected
+- [x] Incompatible scene use is rejected
+- [x] Resolver lists eligible components
+- [x] Intent and scene scoring is deterministic
+- [x] Unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Render regression passes
 
 ## Phase 5 — Timeline + Layout Compiler
 

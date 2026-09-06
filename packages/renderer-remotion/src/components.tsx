@@ -3,6 +3,7 @@ import {AbsoluteFill, Sequence, useCurrentFrame} from "remotion";
 import type {CompiledElement, CompiledScene, RenderPlan} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
 import {PluginRegistry} from "@motion-studio/registry";
+import {SemanticResolver} from "@motion-studio/resolver";
 
 const background = "#101827";
 const muted = "#94a3b8";
@@ -13,22 +14,22 @@ export function createDefaultRegistry(): PluginRegistry {
   return registry;
 }
 
-export const MotionStudioComposition: React.FC<{plan: RenderPlan; registry?: PluginRegistry}> = ({plan, registry = createDefaultRegistry()}) => {
+export const MotionStudioComposition: React.FC<{plan: RenderPlan; registry?: PluginRegistry; resolver?: SemanticResolver}> = ({plan, registry = createDefaultRegistry(), resolver = new SemanticResolver(registry)}) => {
   return (
     <>
       {plan.scenes.map((scene) => (
         <Sequence durationInFrames={scene.durationInFrames} from={scene.fromFrame} key={scene.id}>
-          <SceneRenderer plan={plan} registry={registry} scene={scene} />
+          <SceneRenderer plan={plan} registry={registry} resolver={resolver} scene={scene} />
         </Sequence>
       ))}
     </>
   );
 };
 
-export const SceneRenderer: React.FC<{plan: RenderPlan; registry: PluginRegistry; scene: CompiledScene}> = ({plan, registry, scene}) => {
+export const SceneRenderer: React.FC<{plan: RenderPlan; registry: PluginRegistry; resolver: SemanticResolver; scene: CompiledScene}> = ({plan, registry, resolver, scene}) => {
   const frame = useCurrentFrame();
   const elementMap = new Map(scene.elements.map((element) => [element.id, element]));
-  const connectionProvider = registry.resolve("diagram.connection.request").component.component as React.ComponentType<any>;
+  const connectionProvider = resolver.resolve({capability: "diagram.connection.request", sceneType: scene.type, intents: scene.sceneIntent, theme: scene.theme}).provider.component.component as React.ComponentType<any>;
 
   return (
     <AbsoluteFill style={{backgroundColor: background, fontFamily: "Arial, sans-serif"}}>
@@ -41,15 +42,15 @@ export const SceneRenderer: React.FC<{plan: RenderPlan; registry: PluginRegistry
       })}
       {scene.elements.map((element) => {
         const isActive = scene.timeline.some((event) => event.target === element.id && event.action === "activate" && frame >= event.startFrame);
-        return <ElementRenderer element={element} isActive={isActive} key={element.id} registry={registry} />;
+        return <ElementRenderer element={element} isActive={isActive} key={element.id} registry={registry} resolver={resolver} scene={scene} />;
       })}
     </AbsoluteFill>
   );
 };
 
-const ElementRenderer: React.FC<{element: CompiledElement; isActive: boolean; registry: PluginRegistry}> = ({element, isActive, registry}) => {
-  const provider = registry.resolve(element.capability);
-  const Component = provider.component.component as React.ComponentType<any>;
+const ElementRenderer: React.FC<{element: CompiledElement; isActive: boolean; registry: PluginRegistry; resolver: SemanticResolver; scene: CompiledScene}> = ({element, isActive, resolver, scene}) => {
+  const provider = resolver.resolve({capability: element.capability, sceneType: scene.type, intents: scene.sceneIntent, theme: scene.theme});
+  const Component = provider.provider.component.component as React.ComponentType<any>;
   const label = String(element.props.label ?? element.props.text ?? element.id);
   const style = {left: element.position.x, position: "absolute" as const, top: element.position.y, transform: "translate(-50%, -50%)"};
 

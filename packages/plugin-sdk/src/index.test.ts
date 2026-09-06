@@ -10,7 +10,7 @@ describe("plugin SDK", () => {
       version: "0.1.0",
       core: "^0.1.0",
       capabilities: ["test.card"],
-      components: [defineComponent({id: "test-card", capability: "test.card", component: Component})],
+      components: [defineComponent({id: "test-card", capability: "test.card", intents: ["testing"], component: Component})],
     });
 
     expect(plugin.id).toBe("test-plugin");

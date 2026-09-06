@@ -30,6 +30,8 @@ export type CompiledScene = {
   type: string;
   fromFrame: number;
   durationInFrames: number;
+  sceneIntent: string[];
+  theme?: string;
   elements: CompiledElement[];
   timeline: CompiledTimelineEvent[];
 };
@@ -54,7 +56,7 @@ export function compileStoryboard(input: unknown): RenderPlan {
   const storyboard = parseStoryboard(input);
   let fromFrame = 0;
   const scenes = storyboard.scenes.map((scene) => {
-    const compiled = compileScene(scene, storyboard.metadata.width, storyboard.metadata.height, fromFrame);
+    const compiled = compileScene(scene, storyboard.metadata.width, storyboard.metadata.height, fromFrame, storyboard.metadata.theme);
     fromFrame += compiled.durationInFrames;
     return compiled;
   });
@@ -69,7 +71,7 @@ export function compileStoryboard(input: unknown): RenderPlan {
   };
 }
 
-function compileScene(scene: Scene, width: number, height: number, fromFrame: number): CompiledScene {
+function compileScene(scene: Scene, width: number, height: number, fromFrame: number, theme?: string): CompiledScene {
   const timeline = compileTimeline(scene.timeline ?? [], scene.elements.map((element) => element.id));
   const durationInFrames = scene.duration ?? Math.max(DEFAULT_SCENE_DURATION, getTimelineEnd(timeline));
 
@@ -82,6 +84,8 @@ function compileScene(scene: Scene, width: number, height: number, fromFrame: nu
     type: scene.type,
     fromFrame,
     durationInFrames,
+    sceneIntent: [scene.intent?.primary, ...(scene.intent?.secondary ?? [])].filter((intent): intent is string => Boolean(intent)),
+    theme,
     elements: compileElements(scene, width, height),
     timeline,
   };
