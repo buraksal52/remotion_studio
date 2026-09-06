@@ -1,6 +1,6 @@
-# Motion Studio
+# Remotion Studio
 
-Motion Studio is an AI-native, extensible, plugin-based motion graphics system built on top of Remotion.
+Remotion Studio is an AI-native, extensible, plugin-based motion graphics system built on top of Remotion.
 
 The core idea is simple:
 
