@@ -282,7 +282,30 @@ Status: Complete
 
 ## Phase 10 — Desktop GUI
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Tauri desktop shell
+- [x] React/TypeScript frontend
+- [x] Project explorer
+- [x] Scene list
+- [x] Remotion Player live preview
+- [x] Storyboard inspector
+- [x] Timeline visualization
+- [x] Agent prompt panel
+- [x] Render manager with CLI handoff
+- [x] Built-in plugin manager view
+
+### Validation
+
+- [x] GUI consumes the same compiler, registry, resolver, and renderer services
+- [x] Example projects load into the desktop model
+- [x] Frontend unit tests pass
+- [x] Full workspace tests pass
+- [x] TypeScript build passes
+- [x] Go CLI regression tests pass
+- [x] Existing render path remains intact
 
 ## Phase 11 — Plugin SDK Maturity
 

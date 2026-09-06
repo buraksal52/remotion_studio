@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Motion Studio",
+  "version": "0.1.0",
+  "identifier": "com.motionstudio.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @motion-studio/desktop dev",
+    "beforeBuildCommand": "pnpm --filter @motion-studio/desktop build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {"windows": [{"title": "Motion Studio", "width": 1440, "height": 900, "minWidth": 1180, "minHeight": 760}], "security": {"csp": null}},
+  "bundle": {"active": true, "targets": "all", "icon": []}
+}
