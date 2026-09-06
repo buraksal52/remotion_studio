@@ -1,8 +1,9 @@
-import {mkdirSync, readFileSync, writeFileSync} from "node:fs";
+import {existsSync, mkdirSync, readFileSync, writeFileSync} from "node:fs";
 import {resolve} from "node:path";
 import {compileStoryboard} from "@motion-studio/compiler";
 import {coreMotionPlugin} from "@motion-studio/core-motion";
 import {compileMarkdown} from "@motion-studio/markdown";
+import {compatibleEntries, createEmptyState, installPlugin, removePlugin, searchCatalog, updatePlugin, validateCatalog, validateState, type MarketplaceCatalog, type MarketplaceState} from "@motion-studio/marketplace";
 import {productDemoPlugin} from "@motion-studio/product-demo";
 import {PluginRegistry} from "@motion-studio/registry";
 import {SemanticResolutionError, SemanticResolver} from "@motion-studio/resolver";
@@ -16,6 +17,10 @@ type RuntimeOptions = {
   storyboard?: string;
   markdown?: string;
   output?: string;
+  catalog?: string;
+  state?: string;
+  plugin?: string;
+  query?: string;
 };
 
 export function createDefaultRegistry(): PluginRegistry {
@@ -70,12 +75,76 @@ function parseOptions(args: string[]): RuntimeOptions {
     if (args[index] === "--storyboard") options.storyboard = args[index + 1];
     if (args[index] === "--markdown") options.markdown = args[index + 1];
     if (args[index] === "--output") options.output = args[index + 1];
+    if (args[index] === "--catalog") options.catalog = args[index + 1];
+    if (args[index] === "--state") options.state = args[index + 1];
+    if (args[index] === "--plugin") options.plugin = args[index + 1];
+    if (args[index] === "--query") options.query = args[index + 1];
   }
   return options;
 }
 
 function print(value: unknown, json: boolean): void {
   console.log(json ? JSON.stringify(value, null, 2) : typeof value === "string" ? value : JSON.stringify(value, null, 2));
+}
+
+function loadMarketplaceCatalog(projectRoot: string, requestedPath?: string): MarketplaceCatalog {
+  const path = resolve(projectRoot, requestedPath ?? "marketplace/catalog.json");
+  const catalog = JSON.parse(readFileSync(path, "utf8")) as MarketplaceCatalog;
+  const errors = validateCatalog(catalog);
+  if (errors.length > 0) throw new Error(`Invalid marketplace catalog: ${errors.join("; ")}`);
+  return catalog;
+}
+
+function loadMarketplaceState(projectRoot: string, requestedPath?: string): MarketplaceState {
+  const path = resolve(projectRoot, requestedPath ?? "motion-plugins.json");
+  if (!existsSync(path)) return createEmptyState();
+  const state = JSON.parse(readFileSync(path, "utf8")) as MarketplaceState;
+  const errors = validateState(state);
+  if (errors.length > 0) throw new Error(`Invalid marketplace state: ${errors.join("; ")}`);
+  return state;
+}
+
+function saveMarketplaceState(projectRoot: string, state: MarketplaceState, requestedPath?: string): string {
+  const path = resolve(projectRoot, requestedPath ?? "motion-plugins.json");
+  mkdirSync(resolve(path, ".."), {recursive: true});
+  writeFileSync(path, `${JSON.stringify(state, null, 2)}\n`);
+  return path;
+}
+
+function positional(args: string[]): string | undefined {
+  return args.find((arg) => !arg.startsWith("--"));
+}
+
+function runMarketplace(action: string, args: string[], projectRoot: string): void {
+  const options = parseOptions(args);
+  const catalog = loadMarketplaceCatalog(projectRoot, options.catalog);
+  const state = loadMarketplaceState(projectRoot, options.state);
+  if (action === "list") {
+    const installed = new Map(state.plugins.map((plugin) => [plugin.id, plugin]));
+    print({plugins: searchCatalog(catalog, options.query).map((plugin) => ({...plugin, installed: installed.has(plugin.id), installedVersion: installed.get(plugin.id)?.version}))}, options.json);
+    return;
+  }
+  if (action === "search") {
+    print({plugins: searchCatalog(catalog, options.query ?? positional(args) ?? "")}, options.json);
+    return;
+  }
+  const id = options.plugin ?? positional(args);
+  if (!id) throw new Error(`marketplace ${action} requires a plugin ID`);
+  if (action === "install") {
+    const result = installPlugin(catalog, state, id, "0.1.0", "0.1.0");
+    print({installed: result.entry.id, version: result.entry.version, state: saveMarketplaceState(projectRoot, result.state, options.state)}, options.json);
+    return;
+  }
+  if (action === "remove") {
+    print({removed: id, state: saveMarketplaceState(projectRoot, removePlugin(state, id), options.state)}, options.json);
+    return;
+  }
+  if (action === "update") {
+    const result = updatePlugin(catalog, state, id, "0.1.0", "0.1.0");
+    print({updated: result.entry.id, version: result.entry.version, state: saveMarketplaceState(projectRoot, result.state, options.state)}, options.json);
+    return;
+  }
+  throw new Error(`Unknown marketplace action "${action}"`);
 }
 
 export function runRuntime(command: string, args: string[], projectRoot = process.cwd()): void {
@@ -87,6 +156,11 @@ export function runRuntime(command: string, args: string[], projectRoot = proces
     const path = discoverStoryboard(projectRoot, options.storyboard);
     const result = validateStoryboard(path);
     print({valid: true, storyboard: path, scenes: result.plan.scenes.length, durationInFrames: result.plan.durationInFrames}, options.json);
+    return;
+  }
+
+  if (command === "marketplace") {
+    runMarketplace(args.find((arg) => !arg.startsWith("--")) ?? "list", args.slice(1), projectRoot);
     return;
   }
 

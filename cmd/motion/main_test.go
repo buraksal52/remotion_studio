@@ -20,3 +20,9 @@ func TestValidProjectName(t *testing.T) {
 		}
 	}
 }
+
+func TestMarketplaceCommandMapping(t *testing.T) {
+	if code := marketplaceCommand(".", []string{"unknown"}, true); code != exitRuntime {
+		t.Fatalf("expected unknown plugin action to fail")
+	}
+}

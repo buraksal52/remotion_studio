@@ -331,4 +331,23 @@ Status: Complete
 
 ## Phase 12 — Marketplace
 
-Status: Not started
+Status: Complete
+
+### Deliverables
+
+- [x] Versioned marketplace catalog and installed-state contracts
+- [x] Deterministic plugin discovery and search
+- [x] Core/SDK compatibility filtering
+- [x] Install, update, and remove lifecycle operations
+- [x] CLI marketplace commands with JSON output support
+- [x] Built-in plugin catalog entries
+- [x] Trust boundary documented for future native package installation
+
+### Validation
+
+- [x] Catalog and installed state reject malformed or duplicate entries
+- [x] Incompatible plugins cannot be installed or updated
+- [x] Lifecycle operations are deterministic and tested
+- [x] CLI delegates marketplace operations to the TypeScript runtime
+- [x] Marketplace package, runtime, full workspace, and Go CLI tests pass
+- [x] Existing validation and render paths remain intact

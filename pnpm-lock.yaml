@@ -121,6 +121,19 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@26.4.1)(terser@5.51.2)
 
+  packages/marketplace:
+    dependencies:
+      '@motion-studio/plugin-sdk':
+        specifier: workspace:*
+        version: link:../plugin-sdk
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@26.4.1)(terser@5.51.2)
+
   packages/plugin-sdk:
     devDependencies:
       '@types/react':
@@ -303,6 +316,9 @@ importers:
       '@motion-studio/markdown':
         specifier: workspace:*
         version: link:../markdown
+      '@motion-studio/marketplace':
+        specifier: workspace:*
+        version: link:../marketplace
       '@motion-studio/product-demo':
         specifier: workspace:*
         version: link:../plugins/product-demo

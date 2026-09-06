@@ -12,6 +12,7 @@
     "@motion-studio/compiler": "workspace:*",
     "@motion-studio/core-motion": "workspace:*",
     "@motion-studio/markdown": "workspace:*",
+    "@motion-studio/marketplace": "workspace:*",
     "@motion-studio/product-demo": "workspace:*",
     "@motion-studio/registry": "workspace:*",
     "@motion-studio/renderer-remotion": "workspace:*",

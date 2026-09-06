@@ -74,9 +74,15 @@ motion capabilities --scene product-demo
 
 ```bash
 motion plugins list
-motion plugin add <package>
-motion plugin remove <package>
+motion plugins search <query>
+motion plugin add <plugin-id>
+motion plugin update <plugin-id>
+motion plugin remove <plugin-id>
 ```
+
+Marketplace commands operate on the versioned local catalog and project
+installed state. Native package download/execution requires a future trusted
+adapter and is not implicit in `plugin add`.
 
 ## Agent-Friendly Output
 

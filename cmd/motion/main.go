@@ -47,8 +47,9 @@ func main() {
 	case "doctor":
 		exitCode = doctor(root, args)
 	case "plugins":
-		fmt.Fprintln(os.Stderr, "plugin management is not available until the plugin installation phase")
-		exitCode = exitRuntime
+		exitCode = marketplaceCommand(root, args, false)
+	case "plugin":
+		exitCode = marketplaceCommand(root, args, true)
 	default:
 		fmt.Fprintf(os.Stderr, "unknown command: %s\n", command)
 		usage()
@@ -90,6 +91,33 @@ func runRuntime(root, command string, args []string) int {
 		return exitInvalidProject
 	}
 	return exitSuccess
+}
+
+func marketplaceCommand(root string, args []string, singular bool) int {
+	action := "list"
+	if len(args) > 0 {
+		action = args[0]
+	}
+	if singular && action == "list" {
+		fmt.Fprintln(os.Stderr, "usage: motion plugin <add|remove|update|search> <plugin-id>")
+		return exitRuntime
+	}
+	if !singular && action != "list" && action != "search" {
+		fmt.Fprintln(os.Stderr, "usage: motion plugins [list|search] [query]")
+		return exitRuntime
+	}
+	if singular {
+		switch action {
+		case "add":
+			action = "install"
+		case "remove", "update", "search":
+		default:
+			fmt.Fprintf(os.Stderr, "unknown plugin action: %s\n", action)
+			return exitRuntime
+		}
+	}
+	commandArgs := append([]string{action}, args[1:]...)
+	return runRuntime(root, "marketplace", commandArgs)
 }
 
 func preview(root string, args []string) int {
@@ -309,7 +337,7 @@ func commandExitCode(err error) int {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: motion <new|compile|validate|inspect|capabilities|preview|render|doctor|version|node>")
+	fmt.Fprintln(os.Stderr, "usage: motion <new|compile|validate|inspect|capabilities|preview|render|doctor|plugins|plugin|version|node>")
 }
 
 const newStoryboard = `{

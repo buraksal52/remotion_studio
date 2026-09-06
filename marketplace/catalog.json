@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "plugins": [
+    {"id":"@motion-studio/core-motion","name":"Core Motion","version":"0.1.0","packageName":"@motion-studio/core-motion","description":"Baseline Motion Studio components and primitives.","core":"^0.1.0","sdk":"^0.1.0","capabilities":["ui.hero-text","diagram.node.service","diagram.node.database","diagram.connection.request"],"themes":["technical-dark"],"source":"builtin"},
+    {"id":"@motion-studio/technical-diagrams","name":"Technical Diagrams","version":"0.1.0","packageName":"@motion-studio/technical-diagrams","description":"Architecture and data-flow diagram components.","core":"^0.1.0","sdk":"^0.1.0","capabilities":["diagram.node.client","diagram.node.gateway","diagram.node.queue","diagram.node.cache","diagram.data-packet","diagram.pipeline-step"],"themes":["technical-dark","clean-light"],"source":"builtin"},
+    {"id":"@motion-studio/product-demo","name":"Product Demo","version":"0.1.0","packageName":"@motion-studio/product-demo","description":"Product UI demo components.","core":"^0.1.0","sdk":"^0.1.0","capabilities":["product.browser","product.screenshot","product.feature-card","product.metric","product.cursor","product.badge"],"themes":["product-dark","clean-light"],"source":"builtin"}
+  ]
+}
